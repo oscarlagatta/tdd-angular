@@ -22,4 +22,13 @@ describe('HomesComponent', () => {
   it('should show homes', () => {
     expect(fixture.nativeElement.querySelectorAll('[data-test="home"]').length).toBe(3);
   });
+
+  it('should show home info', () => {
+    const home = fixture.nativeElement.querySelector('[data-test="home"]');
+
+    expect(home.querySelector('[data-test="title"]').innerText).toEqual('home 1');
+    expect(home.querySelector('[data-test="location"]').innerText).toEqual('new york');
+    expect(home.querySelector('[data-test="image"]')).toBeTruthy();
+  });
+
 });
