@@ -32,6 +32,7 @@ describe('HomesComponent', () => {
 
   beforeEach( ()=> {
     dataService = TestBed.get(DataService);
+
     dataService.getHomes$.and.returnValue(of([
       {
             title: "home 1",
@@ -54,9 +55,6 @@ describe('HomesComponent', () => {
   });
 
   it('should show homes', () => {
-
-
-
     expect(fixture.nativeElement.querySelectorAll('[data-test="home"]').length).toBe(3);
   });
 
