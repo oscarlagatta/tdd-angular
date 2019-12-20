@@ -1,0 +1,1 @@
+TDD (test driven development) can be very simple, if we choose to use it in this way it can be a simple ligthweigth guide to building the most essential functionality in our application which helps us figure out how to make the application useful and then look into the appearance
