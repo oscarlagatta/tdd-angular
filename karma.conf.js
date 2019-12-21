@@ -9,18 +9,29 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
+      require('karma-mocha-reporter'),
+      require('karma-jasmine-diff-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
-    client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/tdd-angular'),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['jasmine-diff','mocha'],
+    jasmineDiffReporter: {
+      color: {
+        expectedBg: 'bgMagenta',
+        expectedWhitespaceBg: 'bgMagenta',
+        actualBg: 'bgBlue',
+        actualWhitespaceBg: 'bgBlue'
+      },
+      legacy: true
+    },
+    // mochaReporter: {
+    //   output: 'minimal'
+    // },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
