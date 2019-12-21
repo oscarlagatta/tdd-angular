@@ -1,6 +1,6 @@
 # TddAngular
 
-This project help you to learn the basics of test driven development in an Angular Web Applicatioin.
+This project helps you to learn the basics of test driven development in an Angular Web Applicatioin.
 
 ## Concepts
 
