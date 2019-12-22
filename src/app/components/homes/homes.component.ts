@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { of } from "rxjs";
 import { DataService } from 'src/app/services/data.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: "app-homes",
@@ -10,7 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 export class HomesComponent implements OnInit {
   homes$;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService,
+              private dialogService: DialogService) {}
 
   ngOnInit() {
 
@@ -33,5 +35,9 @@ export class HomesComponent implements OnInit {
     //     location: "london"
     //   }
     // ]);
+  }
+
+  openDialog() {
+    this.dialogService.open();
   }
 }
