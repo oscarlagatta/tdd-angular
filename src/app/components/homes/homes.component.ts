@@ -22,10 +22,10 @@ export class HomesComponent implements OnInit {
 
   }
 
-  openDialog() {
+  openDialog(home: string) {
     this.dialogService.open(BookComponent, {
       width: '250px',
-      data: {}
+      data: { home }
     });
   }
 }
