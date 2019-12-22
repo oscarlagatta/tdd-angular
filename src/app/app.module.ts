@@ -10,6 +10,8 @@ import { HomesComponent } from './components/homes/homes.component';
 
 // material design dialog
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 import { BookComponent } from './components/book/book.component'
 
 @NgModule({
@@ -24,6 +26,7 @@ import { BookComponent } from './components/book/book.component'
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatSnackBarModule,
     FormsModule
   ],
   providers: [],

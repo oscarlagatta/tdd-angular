@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { BookComponent } from "./book.component";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { spyOnClass } from 'jasmine-es6-spies';
@@ -11,6 +12,8 @@ describe("BookComponent", () => {
   let fixture: ComponentFixture<BookComponent>;
   let dialogData;
   let dataService: jasmine.SpyObj<DataService>;
+  let dialogService: jasmine.SpyObj<MatDialogRef<BookComponent>>;
+  let notificationService: jasmine.SpyObj<MatSnackBar>;
 
   const element = function(selector) {
     return fixture.nativeElement.querySelector(selector);
@@ -23,7 +26,8 @@ describe("BookComponent", () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: DataService, useFactory: () => spyOnClass(DataService)},
-
+        { provide: MatDialogRef, useFactory: () => spyOnClass(MatDialogRef)},
+        { provide: MatSnackBar, useFactory: () => spyOnClass(MatSnackBar)}
       ]
     }).compileComponents();
   }));
@@ -33,6 +37,8 @@ describe("BookComponent", () => {
     dialogData = TestBed.get(MAT_DIALOG_DATA);
     component = fixture.componentInstance;
     dataService = TestBed.get(DataService);
+    dialogService = TestBed.get(MatDialogRef);
+    notificationService = TestBed.get(MatSnackBar);
 
     const homes = require("../../../assets/homes.json");
     dialogData.home = homes[0];
@@ -101,6 +107,31 @@ describe("BookComponent", () => {
 
     // assert the dataService was used to book the home
     expect(dataService.bookHome$).toHaveBeenCalled();
+
+  });
+
+  it("should  close the dialog and show notification after clicking book button", () => {
+
+    dataService.bookHome$.and.returnValue(of(null));
+    // user enters checkin date:
+    const checkIn = element('[data-test="check-in"] input');
+    checkIn.value = '20/12/2019';
+    checkIn.dispatchEvent(new Event('input'));
+
+    // user enters check out date
+    const checkOut = element('[data-test="check-out"] input');
+    checkOut.value = '23/12/2019';
+    checkOut.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    // click on the book button
+    element('[data-test="book-btn"] button').click();
+
+    // assert the dataService was used to book the home
+    expect(dialogService.close).toHaveBeenCalled();
+
+    expect(notificationService.open).toHaveBeenCalled();
 
   });
 
