@@ -16,10 +16,7 @@ export class HomesComponent implements OnInit {
               private dialogService: DialogService) {}
 
   ngOnInit() {
-
     this.homes$ = this.dataService.getHomes$();
-
-
   }
 
   openDialog(home: string) {
