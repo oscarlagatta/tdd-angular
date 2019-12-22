@@ -14,4 +14,9 @@ export class DataService {
     // @todo add a real HTTP CALL to get homes
     return this.httpClient.get<any>('assets/homes.json');
   }
+
+  bookHome$() {
+
+    return of(null);
+  }
 }
