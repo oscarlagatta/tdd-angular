@@ -35,7 +35,7 @@ describe('HomesComponent', () => {
 
 
   beforeEach( ()=> {
-    dataService = TestBed.get(DataService);
+    dataService = TestBed.inject(DataService) as jasmine.SpyObj<DataService>;
 
     dataService.getHomes$.and.returnValue(of([
       {
@@ -55,7 +55,7 @@ describe('HomesComponent', () => {
           }
     ]));
 
-    dialogService = TestBed.get(DialogService);
+    dialogService = TestBed.inject(DialogService) as jasmine.SpyObj<DialogService>;
 
     fixture.detectChanges();
   });
