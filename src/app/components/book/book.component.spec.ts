@@ -95,6 +95,28 @@ describe("BookComponent", () => {
       .toContain('Total: £375');
 
   });
+
+  it('should show -- for total when dates are invalid', () => {
+
+    // user enters check in date: 12/20/19
+    const checkIn = element('[data-test="check-in"] input');
+    checkIn.value = '';
+    checkIn.dispatchEvent(new Event('input'));
+
+    // user enter check out date: 12/23/19
+    const checkOut = element('[data-test="check-out"] input');
+    checkOut.value = '';
+    checkOut.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    // assert that the total shows 3x125=375
+    expect(element('[data-test="total"]').textContent)
+      .toContain('Total: --');
+
+  });
+
+
   // should book home after clicking the Book button
   it("should book home after clicking the Book button", () => {
     dataService.bookHome$.and.returnValue(of(null));

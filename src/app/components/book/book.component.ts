@@ -20,24 +20,24 @@ export class BookComponent implements OnInit {
     public dialogRef: MatDialogRef<BookComponent>,
     private snackBar: MatSnackBar) { }
 
-  ngOnInit() {
-    // console.log(this.data);
-  }
+  ngOnInit() {}
 
   calculateTotal(checkIn, checkOut) {
-
-    // console.log(checkIn, checkOut);
 
     // find the difference between the dates
     const checkInDate  = moment(checkIn, 'DD/MM/YY');
     const checkOutDate = moment(checkOut, 'DD/MM/YY');
-    // checkOutDate.diff(checkInDate, 'days');
-    const nights = checkOutDate.diff(checkInDate, 'days');
-    // console.log('price', nights * this.data.home.price );
 
-    // which bgives the number of nights
-    // multiply the number by the price
-    return nights * this.data.home.price;
+    const nights = checkOutDate.diff(checkInDate, 'days');
+
+    const total = nights * this.data.home.price;
+
+    if ( total > 0 && total < 900000){
+      return `£${total}`;
+    } else {
+      return '--';
+    }
+
 
   }
 
