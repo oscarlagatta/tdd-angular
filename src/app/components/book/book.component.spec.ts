@@ -1,11 +1,16 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BookComponent } from "./book.component";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
-import { spyOnClass } from 'jasmine-es6-spies';
-import { of } from 'rxjs/internal/observable/of';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule, MAT_DATE_LOCALE } from "@angular/material/core";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material";
+import { FormsModule } from "@angular/forms";
+import { DataService } from "src/app/services/data.service";
+import { spyOnClass } from "jasmine-es6-spies";
+import { of } from "rxjs/internal/observable/of";
 
 describe("BookComponent", () => {
   let component: BookComponent;
@@ -21,13 +26,20 @@ describe("BookComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule
+      ],
       declarations: [BookComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: DataService, useFactory: () => spyOnClass(DataService)},
-        { provide: MatDialogRef, useFactory: () => spyOnClass(MatDialogRef)},
-        { provide: MatSnackBar, useFactory: () => spyOnClass(MatSnackBar)}
+        { provide: DataService, useFactory: () => spyOnClass(DataService) },
+        { provide: MatDialogRef, useFactory: () => spyOnClass(MatDialogRef) },
+        { provide: MatSnackBar, useFactory: () => spyOnClass(MatSnackBar) }
       ]
     }).compileComponents();
   }));
@@ -51,54 +63,50 @@ describe("BookComponent", () => {
   });
 
   it("should show price", () => {
-
-    expect(element('[data-test="price"]').textContent).toContain("£125 per night");
+    expect(element('[data-test="price"]').textContent).toContain(
+      "£125 per night"
+    );
   });
 
   it("should show check in date field", () => {
-    expect(element('[data-test="check-in"]'))
-      .toBeTruthy();
+    expect(element('[data-test="check-in"]')).toBeTruthy();
   });
 
   it("should show check out date field", () => {
-    expect(element('[data-test="check-out"]'))
-      .toBeTruthy();
+    expect(element('[data-test="check-out"]')).toBeTruthy();
   });
 
-  it("should show total", () => {
+  it('should show total', () => {
 
-    // user enters checkin date:
+    // user enters check in date: 12/20/19
     const checkIn = element('[data-test="check-in"] input');
-    checkIn.value = '20/12/2019';
+    checkIn.value = '12/20/19';
     checkIn.dispatchEvent(new Event('input'));
 
-    // user enters check out date
+    // user enter check out date: 12/23/19
     const checkOut = element('[data-test="check-out"] input');
-    checkOut.value = '23/12/2019';
+    checkOut.value = '12/23/19';
     checkOut.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
-    // assert the totals shows 3 x 125 = 375
-
+    // assert that the total shows 3x125=375
     expect(element('[data-test="total"]').textContent)
       .toContain('Total: £375');
 
   });
-
   // should book home after clicking the Book button
   it("should book home after clicking the Book button", () => {
-
     dataService.bookHome$.and.returnValue(of(null));
     // user enters checkin date:
     const checkIn = element('[data-test="check-in"] input');
-    checkIn.value = '20/12/2019';
-    checkIn.dispatchEvent(new Event('input'));
+    checkIn.value = "20/12/2019";
+    checkIn.dispatchEvent(new Event("input"));
 
     // user enters check out date
     const checkOut = element('[data-test="check-out"] input');
-    checkOut.value = '23/12/2019';
-    checkOut.dispatchEvent(new Event('input'));
+    checkOut.value = "23/12/2019";
+    checkOut.dispatchEvent(new Event("input"));
 
     fixture.detectChanges();
 
@@ -107,21 +115,19 @@ describe("BookComponent", () => {
 
     // assert the dataService was used to book the home
     expect(dataService.bookHome$).toHaveBeenCalled();
-
   });
 
   it("should  close the dialog and show notification after clicking book button", () => {
-
     dataService.bookHome$.and.returnValue(of(null));
     // user enters checkin date:
     const checkIn = element('[data-test="check-in"] input');
-    checkIn.value = '20/12/2019';
-    checkIn.dispatchEvent(new Event('input'));
+    checkIn.value = "20/12/2019";
+    checkIn.dispatchEvent(new Event("input"));
 
     // user enters check out date
     const checkOut = element('[data-test="check-out"] input');
-    checkOut.value = '23/12/2019';
-    checkOut.dispatchEvent(new Event('input'));
+    checkOut.value = "23/12/2019";
+    checkOut.dispatchEvent(new Event("input"));
 
     fixture.detectChanges();
 
@@ -132,7 +138,5 @@ describe("BookComponent", () => {
     expect(dialogService.close).toHaveBeenCalled();
 
     expect(notificationService.open).toHaveBeenCalled();
-
   });
-
 });
